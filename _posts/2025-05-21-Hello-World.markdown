@@ -2,17 +2,8 @@
 layout: post
 title:  "Hello World!"
 date:   2025-05-21 02:00:01 +0530
-use_mathjax: true
 categories: coding
 ---
----
-layout: default
-title: "Your Page Title"
----
-
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
 
 After a lot of effort, got github pages and jekyll to run!
 
