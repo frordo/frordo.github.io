@@ -2,6 +2,7 @@
 layout: post
 title:  "Hello World!"
 date:   2025-05-21 02:00:01 +0530
+use_mathjax: true
 categories: coding
 ---
 After a lot of effort, got this github pages and jekyll to run!
