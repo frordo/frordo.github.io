@@ -27,7 +27,8 @@ Hello, world!
 
 {% endhighlight %}
 
-It took a lot of effort to add MathJax and $\LaTeX$
+It took a lot of effort to add MathJax and \\(LaTeX\\)
 
 $$a^2 + b^2 = c^2$$
+
 $$\mathcal{O}(n\log n)$$
