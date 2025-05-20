@@ -36,6 +36,7 @@ Hello, world!
 
 {% endhighlight %}
 
-\\[a^2 + b^2 = c^2 \\]
+It took a lot of effort to add MathJax and $\LaTeX$
 
 $$a^2 + b^2 = c^2$$
+$$\mathcal{O}(n\log n)$$
