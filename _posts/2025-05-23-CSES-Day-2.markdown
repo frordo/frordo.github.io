@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "CSES Day 2"
+date:   2025-05-23 15:45:01 +0530
+categories: coding, cses
+---
+
+Some more discussion of [CSES problems](https://cses.fi/problemset/list/)!
+
+1. [Bit Strings](https://cses.fi/problemset/task/1617): I think pretty much everybody knows this. The \\(\pmod{10^9 + 7}\\) part is kind of weird though. Not sure why we need that?
+
+2. [Trailing Zeros](https://cses.fi/problemset/task/1618): It would've made for a nice problem. Unfortunately I already knew the solution from JEE prep. This is just the p-adic valuation \\((\nu_5(n!))\\). Obviously there are more factors of five. See [Legendre's formula](https://en.wikipedia.org/wiki/Legendre%27s_formula).
