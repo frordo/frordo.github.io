@@ -1,10 +1,10 @@
 ---
-title: Hello, World!
+title: CSES Introductory
 date: 2025-12-14 02:30:00 +0530
 categories: [coding]
 tags: [cses, competitive_programming]
-author: <rahul>
-description: CSES Introductory
+author: rahul
+description: A discussion of the first few CSES problems 
 math: true
 ---
 Remark: This was originally posted on another blog on 19/6/25.
@@ -25,7 +25,7 @@ As a side note: I'm using python right now, because I'm not very comfortable wit
 
 4. [Increasing Array](https://cses.fi/problemset/task/1094): This one looks intimidating. But once you look at an example the idea is very clear. My solution was to go through the array, and add the difference of two consecutive elements to a counter variable, and then replace an element. Pretty much the same as the official solution. Both the algorithm and its implementation are straightforward.
 
-5. [Permutations](https://cses.fi/problemset/task/1070/): So the logic for this is pretty straightforward. Just group the evens and the odds and it will obviously work, except for some small edge cases. So we just deal with $$n=2$$ and $$n=3$$ separately. My first submission had a <code style="color: red;">TIME LIMIT EXCEEDED</code>. But I realized it was because I was calling the `print` function $$n$$ times. 
+5. [Permutations](https://cses.fi/problemset/task/1070/): So the logic for this is pretty straightforward. Just group the evens and the odds and it will obviously work, except for some small edge cases. So we just deal with $$n=2$$ and $$n=3$$ separately. My first submission had a <code style="color: #9f3434;">TIME LIMIT EXCEEDED</code>. But I realized it was because I was calling the `print` function $$n$$ times. 
 
     So instead I switched to <code>sys.stdout.write(" ".join(map(str, a)))</code> which is something new I learnt. Python is weird.
 
@@ -68,7 +68,7 @@ As a side note: I'm using python right now, because I'm not very comfortable wit
 
     This is very clever. If the sum of the two sets are to be equal, then the sum of one of them must be $$s/2$$. With this observation we will greed our way into this, similar to the famous coin problem, by subtracting as many big numbers as we can. And of course for this to work \\(s\\) must be even.
 
-7. [Bit Strings](https://cses.fi/problemset/task/1617): I think pretty much everybody knows this. The $$\pmod{10^9 + 7}$$ part is to prevent overflows. One should use the fact that $$\pmod{}$$ distributes over multiplication. As an aside, $$2^n$$ can be calculated in $$\mathcal{O}(\log_2n)$$ steps, by representing $$n$$ in binary.
+7. [Bit Strings](https://cses.fi/problemset/task/1617): I think pretty much everybody knows this. The$$\pmod{10^9 + 7}$$part is to prevent overflows. One should use the fact that$$\pmod{}$$distributes over multiplication. As an aside, $$2^n$$ can be calculated in $$\mathcal{O}(\log_2n)$$ steps, by representing $$n$$ in binary.
 
 8. [Trailing Zeros](https://cses.fi/problemset/task/1618): It would've made for a nice problem. Unfortunately I already knew the solution from JEE prep. This is just the p-adic valuation $$(\nu_5(n!))$$. Obviously there are more factors of five than two. See [Legendre's formula](https://en.wikipedia.org/wiki/Legendre%27s_formula).
 
