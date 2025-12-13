@@ -1,8 +1,5 @@
 ---
 # the default layout is 'page'
-icon: fas fa-info-circle
-order: 4
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
-{: .prompt-tip }
+Hi, I am Rahul, an undergrad at the Indian Institute of Technology, Kharagpur, expected class of '29. In my free time, I enjoy solving puzzles, playing chess and exploring tech and competitive programming.
