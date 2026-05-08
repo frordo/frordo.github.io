@@ -13,18 +13,20 @@ $$
 \exp(x) := 1 + x + \frac{x^2}{2!} + \cdots = \sum_{k=0}^{\infty} \frac{x^k}{k!}
 $$
 
-Now our goal is to show that $$\exp(x+y) = \exp(x) \exp(y)$$. First we will show the easier $$\exp(2x) = \exp(x)\exp(x)$$.
+From this definition as a power series, it isn't so clear that our function really does behave like an exponential. Any exponent satisfies $$a^{m+n} = a^m a^n$$. So our goal here is to show that $$\exp(x+y) = \exp(x) \exp(y)$$. 
+
+As a warmup, first we will show the easier $$\exp(2x) = \exp(x)\exp(x)$$.
 
 $$
 \exp(x) \exp(x) = \sum_{p=0}^{\infty} \frac{x^p}{p!} \sum_{q=0}^{\infty} \frac{x^q}{q!}
-= \sum_{p, \ q \geq 0} \frac{x^p x^q}{p! q!}
+= \sum_{p, \ q \geq 0} \frac{x^p x^q}{p! \ q!}
 $$
 
-Now to find the coefficient of $x^k$, set $p + q = k$. Then
+Denote by $$[x^k]$$ the coefficient of $$x^k$$. To find it, set $p + q = k$. Then
 
 $$
 \begin{align*}
-    [x^k] &= \sum_{p + q = k} \frac{1}{p! q!} \\
+    [x^k] &= \sum_{p + q = k} \frac{1}{p! \ q!} \\
           &= \frac{1}{0! \, k!} + \frac{1}{1! \, (k-1)!} + \dots + \frac{1}{k! \, 0!} \\
           &= \frac{1}{k!} \sum_{p=0}^{k} \binom{k}{p} \\
           &= \frac{2^k}{k!}
@@ -33,27 +35,62 @@ $$
 
 Aha! The coefficient of $$x^k$$ is $$\frac{2^k}{k!}$$, so the $k$-th term is given by $$\frac{(2x)^k}{k!}$$, as desired.
 
-Now that we have a taste for this specific case, let us move on to the general one.
+Now that we have a hold on a specific case, let us move on to the general one.
 
 
 $$
 \exp(x) \exp(y) = \sum_{p=0}^{\infty} \frac{x^p}{p!} \sum_{q=0}^{\infty} \frac{y^q}{q!}
-= \sum_{p, \ q \geq 0} \frac{x^p y^q}{p! q!}
+= \sum_{p, \ q \geq 0} \frac{x^p y^q}{p! \ q!}
 $$
 
-Now set $$p + q = k$$ and summing over all $$k$$ is the same as the above sum
+Now letting $p + q = k$ and summing over all $k$ is the same as the sum above[^1]
 
 $$
 \begin{align*}
-    \exp(x) \exp(y) &= \sum_{k=0}^{\infty} \sum_{p + q = k} \frac{x^p y^q}{p! q!} \\
-                    &= \sum_{k=0}^{\infty} \sum_{p=0}^k \frac{x^p y^{k-p}}{p! (k-p)!} \\
+    \exp(x) \exp(y) &= \sum_{k=0}^{\infty} \sum_{p + q = k} \frac{x^p y^q}{p! \ q!} \\
+                    &= \sum_{k=0}^{\infty} \sum_{p=0}^k \frac{x^p y^{k-p}}{p! \ (k-p)!} \\
                     &= \sum_{k=0}^{\infty} \frac{1}{k!} \sum_{p=0}^k \binom{k}{p} x^p y^{k-p} \\
-                    &= \sum_{k=0}^{\infty} \frac{1}{k!} (x+y)^k \text{(binomial theorem)} \\
+                    &= \sum_{k=0}^{\infty} \frac{1}{k!} (x+y)^k \quad \href{https://en.wikipedia.org/wiki/Binomial_theorem}{\text{(binomial theorem)}} \\
                     &= \sum_{k=0}^{\infty} \frac{(x+y)^k}{k!} \\
                     &= \exp(x+y) \quad \blacksquare
 \end{align*}
 $$
 
-And so we are done!
+And so we are done! What we are doing here is called the [Cauchy product](https://en.wikipedia.org/wiki/Cauchy_product).
 
-Exercise left to the reader: now prove the formula for $$\sin(x+y)$$... ;)
+Exercise left to the reader: now prove the formula for $$\sin(x+y)$$... 😜
+
+[^1]: This rearrangement holds by [Fubini's theorem](https://en.wikipedia.org/wiki/Fubini%27s_theorem), as the exponential series converges absolutely.
+
+
+-----
+
+Let us now work with another definition of $$\exp$$. Define $$\exp(x)$$ to be the solution to the equation $$f'(x) = f(x)$$ with $$f(0) = 1$$. Now our goal is to show that $$\exp(x+y) = \exp(x) \exp(y) $$. Let $$g(x) = \exp(x+y)$$ and $$h(x) = \exp x \exp y$$. Then it is trivial to check that these satisfy the differential equation:
+
+$$
+g'(x) = \frac{d}{dx} \exp(x+y) = \exp(x+y) = g(x)
+$$
+
+by the chain rule and
+
+$$
+h'(x) = \frac{d}{dx} \exp x \exp y = \exp x \exp y = h(x).
+$$
+
+And also that $$g(0) = h(0) = \exp y$$, using $$\exp 0 =1$$. 
+
+Now by [Picard–Lindelöf](https://en.wikipedia.org/wiki/Picard%E2%80%93Lindel%C3%B6f_theorem), we have two functions satisfying the same ODE with the same initial values, and so they are the same function by uniqueness. $$\blacksquare$$
+
+-----
+
+The reader is encouraged to also show this for the limit definition,
+
+$$
+\exp x := \lim_{n \to \infty} \left(1 + \frac{x}{n} \right)^n
+$$
+
+Heuristic: 
+
+$$
+\left(1+\frac{x}{n}\right)^n\left(1+\frac{y}{n}\right)^n = \left(1+\frac{x+y}{n}+\frac{xy}{n^2}\right)^n = \cdots
+$$
