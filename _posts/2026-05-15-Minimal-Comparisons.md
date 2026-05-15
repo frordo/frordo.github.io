@@ -17,7 +17,7 @@ The minimum of $$A$$ is just $$-\max{(-A)}$$ so the same argument goes through.
 
 -----
 
-You might wonder why bother doing all this? Isn't this trivial? That was just a warmup! Here is our [puzzle](https://brainstellar.com/puzzles/strategy/1011) for today: 
+You might wonder why bother doing all this? Isn't this [trivial](https://en.wikipedia.org/wiki/Proof_by_intimidation)? That was just a warmup! Here is our [puzzle](https://brainstellar.com/puzzles/strategy/1011) for today: 
 
 >Given an array of $$n$$ numbers. Finding its minimum takes $$n-1$$ comparisons. Finding maximum takes $$n-1$$ comparisons. If you had to simultaneously find both the minimum and the maximum, can you do better than $$2n-2$$ comparisons?
 
@@ -29,7 +29,7 @@ But how do we know there is no clever trick that can do better? Here is an exerc
 
 >Prove the lower bound of $$\left \lceil \frac{3n}{2} \right \rceil - 2$$ comparisons in the worst case to find both the maximum and minimum of n numbers. (Hint: Consider how many numbers are potentially either the maximum or minimum, and investigate how a comparison affects these counts.)
 
-Following the hint, all the $$n$$ numbers are potentially the minimum or maximum. Let $$X = \text{#possible maximums} + \text{#possible minimums}$$. Suppose we compare two elements we have not compared yet. Then we can reduce the size of $$X$$ by two. Any other comparison reduces $$X$$ by one. So it's best to keep comparing fresh elements. There are only $$\frac{n}{2}$$ fresh elements. After comparing them we will have two arrays of size $$\frac{n}{2}$$ and $$\frac{n}{2}$$. So in total we have $$\frac{n}{2}- 1 + \frac{n}{2} -1 + \frac{n}{2} = \frac{3n}{2} - 2$$ comparisons as a lower bound, as desired. (To get the ceils requires some fiddling -- left as an exercise! 😜)
+Following the hint, all the $$n$$ numbers are potentially the minimum or maximum. Let $$X = \text{#possible maximums} + \text{#possible minimums}$$. Suppose we compare two elements we have not compared yet. Then we can reduce the size of $$X$$ by two. Any other comparison reduces $$X$$ by one. So it's best to keep comparing fresh elements. There are only $$\frac{n}{2}$$ fresh elements. After comparing them we will have two arrays of size $$\frac{n}{2}$$ and $$\frac{n}{2}$$. So in total we have $$\frac{n}{2}- 1 + \frac{n}{2} -1 + \frac{n}{2} = \frac{3n}{2} - 2$$ comparisons as a lower bound, as desired. (To get the ceils requires some fiddling -- [left as an exercise](https://github.com/s-macke/Abstruse-Goose-Archive/blob/master/comics/math_text.png)! 😜)
 
 Our algorithm above achieves this lower bound.
 
