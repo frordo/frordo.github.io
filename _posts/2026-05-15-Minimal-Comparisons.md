@@ -1,5 +1,5 @@
 ---
-title: Minimal-Comparisons
+title: Minimal Comparisons
 date: 2026-05-15 12:30:00 +0530
 categories: [math, coding]
 tags: [math-for-fun]

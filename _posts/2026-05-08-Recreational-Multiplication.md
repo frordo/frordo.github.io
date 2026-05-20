@@ -94,3 +94,14 @@ Heuristic:
 $$
 \left(1+\frac{x}{n}\right)^n\left(1+\frac{y}{n}\right)^n = \left(1+\frac{x+y}{n}+\frac{xy}{n^2}\right)^n = \cdots
 $$
+
+-----
+
+Upd. (added 21/05/26): 
+
+Here is a neat little extensions of the method above. Consider $$g(x) = \exp(ix)$$ where $$i^2 = 1$$. Then $$g' = i g$$ and $$y(0) = 1$$. Can you see where I'm going with this? Now also consider $$h(x) = \cos x + i \sin x$$. Then $$h' = ih$$ and $$h(0) = 1$$. And hence Euler's formula is proved!
+
+Another exercise for the conscientious reader: 
+>Show that $$\exp(x)^r = \exp(r)$$ for all real numbers $$r$$. Use your favorite definition! 
+
+Cheers!
