@@ -1,0 +1,1639 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brainstellar Checklist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* ── Catppuccin Mocha (dark) ── */
+      [data-theme="dark"] {
+        --bg: #1e1e2e;
+        --surface: #181825;
+        --surface2: #313244;
+        --border: #45475a;
+        --border-hover: #585b70;
+        --text: #cdd6f4;
+        --text-secondary: #bac2de;
+        --text-faint: #6c7086;
+        --accent: #89b4fa;
+        --easy: #a6e3a1;
+        --medium: #f9e2af;
+        --hard: #fab387;
+        --deadly: #f38ba8;
+        --star-color: #f9e2af;
+        --done-bg: #1e2a1e;
+        --done-text: #6c9e6c;
+        --toggle-bg: #313244;
+      }
+
+      /* ── Catppuccin Latte (light) ── */
+      [data-theme="light"] {
+        --bg: #eff1f5;
+        --surface: #ffffff;
+        --surface2: #e6e9ef;
+        --border: #ccd0da;
+        --border-hover: #acb0be;
+        --text: #4c4f69;
+        --text-secondary: #5c5f77;
+        --text-faint: #8c8fa1;
+        --accent: #1e66f5;
+        --easy: #40a02b;
+        --medium: #df8e1d;
+        --hard: #fe640b;
+        --deadly: #d20f39;
+        --star-color: #df8e1d;
+        --done-bg: #eef5ee;
+        --done-text: #5a8a5a;
+        --toggle-bg: #e6e9ef;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        font-size: 15px;
+        line-height: 1.5;
+        min-height: 100vh;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+      }
+
+      .page-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .page-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.01em;
+      }
+
+      .theme-toggle {
+        background: var(--toggle-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.38rem 0.75rem;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: all 0.15s;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+      }
+
+      .stat-item strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .progress-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        margin-bottom: 0.45rem;
+      }
+
+      .progress-label .pct {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .progress-track {
+        height: 6px;
+        background: var(--surface2);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 999px;
+        transition: width 0.4s ease;
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 0.6rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .cat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.75rem 0.9rem;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--cat-color);
+      }
+
+      .cat-card:hover {
+        border-color: var(--border-hover);
+      }
+
+      .cat-card.active {
+        border-color: var(--cat-color);
+        background: color-mix(in srgb, var(--cat-color) 10%, var(--surface));
+      }
+
+      .cat-name {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--cat-color);
+        margin-bottom: 0.2rem;
+      }
+
+      .cat-progress-text {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+
+      .cat-mini-bar {
+        margin-top: 0.45rem;
+        height: 3px;
+        background: var(--border);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .cat-mini-fill {
+        height: 100%;
+        background: var(--cat-color);
+        border-radius: 999px;
+        transition: width 0.4s ease;
+      }
+
+      .filters {
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        align-items: center;
+      }
+
+      .filter-btn {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        font-family: inherit;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.35rem 0.9rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .filter-btn:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+
+      .filter-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--bg);
+        font-weight: 600;
+      }
+
+      .spacer {
+        flex: 1;
+      }
+
+      .clear-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-faint);
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 500;
+        padding: 0.35rem 0.9rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .clear-btn:hover {
+        border-color: var(--deadly);
+        color: var(--deadly);
+      }
+
+      .table-header {
+        display: grid;
+        grid-template-columns: 36px 36px 1fr 90px 120px;
+        gap: 0.5rem;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-faint);
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 0.25rem;
+      }
+
+      .puzzle-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .puzzle-row {
+        display: grid;
+        grid-template-columns: 36px 36px 1fr 90px 120px;
+        gap: 0.5rem;
+        align-items: center;
+        padding: 0.6rem 0.75rem;
+        border-radius: 7px;
+        background: var(--surface);
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition:
+          border-color 0.12s,
+          background 0.12s;
+      }
+
+      .puzzle-row:hover {
+        border-color: var(--border);
+        background: var(--surface2);
+      }
+
+      .puzzle-row.solved {
+        background: var(--done-bg);
+      }
+
+      .puzzle-row.solved .puzzle-name {
+        color: var(--done-text);
+        text-decoration: line-through;
+        text-decoration-color: var(--easy);
+        text-decoration-thickness: 1.5px;
+      }
+
+      .puzzle-row.solved .puzzle-link a {
+        color: var(--text-faint);
+      }
+
+      .check-box {
+        width: 19px;
+        height: 19px;
+        border-radius: 5px;
+        border: 1.5px solid var(--border-hover);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .check-box:hover {
+        border-color: var(--easy);
+      }
+
+      .puzzle-row.solved .check-box {
+        background: var(--easy);
+        border-color: var(--easy);
+      }
+
+      .check-icon {
+        display: none;
+      }
+
+      .puzzle-row.solved .check-icon {
+        display: block;
+      }
+
+      .star-btn {
+        width: 26px;
+        height: 26px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        transition: all 0.15s;
+        flex-shrink: 0;
+        padding: 0;
+        opacity: 0.25;
+      }
+
+      .star-btn:hover {
+        opacity: 0.7;
+        transform: scale(1.1);
+      }
+
+      .star-btn.starred {
+        opacity: 1;
+      }
+
+      .puzzle-name {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: var(--text);
+        transition: color 0.12s;
+      }
+
+      .puzzle-link {
+        font-size: 0.78rem;
+        color: var(--text-faint);
+        margin-top: 1px;
+      }
+
+      .puzzle-link a {
+        color: var(--text-faint);
+        text-decoration: none;
+        transition: color 0.12s;
+      }
+
+      .puzzle-link a:hover {
+        color: var(--accent);
+      }
+
+      .diff-tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.2rem 0.55rem;
+        border-radius: 5px;
+        background: color-mix(in srgb, var(--d-color) 15%, transparent);
+        color: var(--d-color);
+        border: 1px solid color-mix(in srgb, var(--d-color) 30%, transparent);
+      }
+
+      .cat-tag {
+        display: inline-block;
+        font-size: 0.73rem;
+        font-weight: 500;
+        padding: 0.18rem 0.5rem;
+        border-radius: 5px;
+        background: color-mix(in srgb, var(--c-color) 12%, transparent);
+        color: var(--c-color);
+        border: 1px solid color-mix(in srgb, var(--c-color) 22%, transparent);
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: var(--text-faint);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 620px) {
+        .table-header,
+        .puzzle-row {
+          grid-template-columns: 36px 36px 1fr 75px;
+        }
+
+        .table-header .col-cat,
+        .puzzle-row .cat-tag {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="page-title-row">
+        <div class="page-title">Brainstellar Tracker</div>
+        <button class="theme-toggle" id="theme-toggle">
+          <span id="theme-icon">☀️</span>
+          <span id="theme-label">Light</span>
+        </button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item">
+          Solved:
+          <strong
+            ><span id="hd-solved">0</span>/<span id="hd-total">0</span></strong
+          >
+        </div>
+        <div class="stat-item">
+          Starred: <strong><span id="hd-starred">0</span></strong>
+        </div>
+        <div class="stat-item">
+          Streak: <strong><span id="hd-streak">0</span> 🔥</strong>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-label">
+          <span>Overall Progress</span>
+          <span class="pct" id="overall-pct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="overall-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="category-grid" id="cat-grid"></div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-status="all">All</button>
+        <button class="filter-btn" data-status="todo">To Do</button>
+        <button class="filter-btn" data-status="done">Done</button>
+        <button class="filter-btn" data-status="starred">Starred</button>
+        <div class="spacer"></div>
+        <button class="clear-btn" id="clear-btn">Reset All</button>
+      </div>
+
+      <div class="table-header">
+        <div></div>
+        <div>★</div>
+        <div>Puzzle</div>
+        <div>Difficulty</div>
+        <div class="col-cat">Category</div>
+      </div>
+      <div class="puzzle-list" id="puzzle-list"></div>
+    </div>
+
+    <script>
+      // ── Puzzle data (difficulty from brainstellar.com/puzzles/{easy|medium|hard|deadly})
+      // ── Category from brainstellar.com/puzzles/{probability|discrete|strategy|general}
+      // A puzzle can belong to multiple categories; we pick the most specific one.
+      // Difficulty: easy=1-32, medium=101-130 + some 1000s, hard=22+201-226+some 1000s, deadly=221,1008,1009,1012
+
+      const PUZZLES = [
+        // ── EASY ──────────────────────────────────────────────────────────────
+        {
+          id: 1,
+          name: "Rolling the Bullet",
+          url: "https://brainstellar.com/puzzles/1",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 2,
+          name: "Pirates & The Treasure",
+          url: "https://brainstellar.com/puzzles/2",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 3,
+          name: "The Returning Explorer",
+          url: "https://brainstellar.com/puzzles/3",
+          diff: "easy",
+          cat: "discrete",
+        },
+        {
+          id: 4,
+          name: "Which Switch?",
+          url: "https://brainstellar.com/puzzles/4",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 5,
+          name: "Lucky Candy",
+          url: "https://brainstellar.com/puzzles/5",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 6,
+          name: "All Girls World?",
+          url: "https://brainstellar.com/puzzles/6",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 7,
+          name: "Tigers & The Sheep",
+          url: "https://brainstellar.com/puzzles/7",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 8,
+          name: "Duck & Fox",
+          url: "https://brainstellar.com/puzzles/8",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 9,
+          name: "The Plane in the Wind",
+          url: "https://brainstellar.com/puzzles/9",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 10,
+          name: "Burning Cords",
+          url: "https://brainstellar.com/puzzles/10",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 11,
+          name: "Pair of Socks",
+          url: "https://brainstellar.com/puzzles/11",
+          diff: "easy",
+          cat: "discrete",
+        },
+        {
+          id: 12,
+          name: "Antipodal Points",
+          url: "https://brainstellar.com/puzzles/12",
+          diff: "easy",
+          cat: "discrete",
+        },
+        {
+          id: 13,
+          name: "Half Time",
+          url: "https://brainstellar.com/puzzles/13",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 14,
+          name: "Monty Hall Problem",
+          url: "https://brainstellar.com/puzzles/14",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 15,
+          name: "Prisoner's Hat",
+          url: "https://brainstellar.com/puzzles/15",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 16,
+          name: "Knight and Knave",
+          url: "https://brainstellar.com/puzzles/16",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 17,
+          name: "Water & Wine",
+          url: "https://brainstellar.com/puzzles/17",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 18,
+          name: "100 Light Bulbs",
+          url: "https://brainstellar.com/puzzles/18",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 19,
+          name: "UnBiased Coin",
+          url: "https://brainstellar.com/puzzles/19",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 20,
+          name: "You Have a Train to Catch!",
+          url: "https://brainstellar.com/puzzles/20",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 21,
+          name: "2 Eggs",
+          url: "https://brainstellar.com/puzzles/21",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 22,
+          name: "e^Pi or Pi^e",
+          url: "https://brainstellar.com/puzzles/22",
+          diff: "hard",
+          cat: "general",
+        },
+        {
+          id: 23,
+          name: "Shooting in Circle",
+          url: "https://brainstellar.com/puzzles/23",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 24,
+          name: "Invisible Dice",
+          url: "https://brainstellar.com/puzzles/24",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 25,
+          name: "Daughter or Son",
+          url: "https://brainstellar.com/puzzles/25",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 26,
+          name: "Dark Room Deck",
+          url: "https://brainstellar.com/puzzles/26",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 27,
+          name: "Cheating Husbands",
+          url: "https://brainstellar.com/puzzles/27",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 28,
+          name: "Father of Lies",
+          url: "https://brainstellar.com/puzzles/28",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 29,
+          name: "Devil's Penny",
+          url: "https://brainstellar.com/puzzles/29",
+          diff: "easy",
+          cat: "general",
+        },
+        {
+          id: 30,
+          name: "Witches at the Coffee Shop",
+          url: "https://brainstellar.com/puzzles/30",
+          diff: "easy",
+          cat: "probability",
+        },
+        {
+          id: 31,
+          name: "Poisonous Wine",
+          url: "https://brainstellar.com/puzzles/31",
+          diff: "easy",
+          cat: "strategy",
+        },
+        {
+          id: 32,
+          name: "Half Heads",
+          url: "https://brainstellar.com/puzzles/32",
+          diff: "easy",
+          cat: "probability",
+        },
+
+        // ── MEDIUM ────────────────────────────────────────────────────────────
+        {
+          id: 101,
+          name: "Drunk Passenger",
+          url: "https://brainstellar.com/puzzles/101",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 102,
+          name: "Stick to Triangle",
+          url: "https://brainstellar.com/puzzles/102",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 103,
+          name: "Rabbit on the Staircase",
+          url: "https://brainstellar.com/puzzles/103",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 104,
+          name: "Sharing Wood",
+          url: "https://brainstellar.com/puzzles/104",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 105,
+          name: "Infinity & Beyond",
+          url: "https://brainstellar.com/puzzles/105",
+          diff: "medium",
+          cat: "strategy",
+        },
+        {
+          id: 106,
+          name: "Chuck a Luck",
+          url: "https://brainstellar.com/puzzles/106",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 107,
+          name: "Multilingual",
+          url: "https://brainstellar.com/puzzles/107",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 108,
+          name: "Guess the Toss",
+          url: "https://brainstellar.com/puzzles/108",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 109,
+          name: "Pattern on Snowflakes",
+          url: "https://brainstellar.com/puzzles/109",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 110,
+          name: "King's Salary",
+          url: "https://brainstellar.com/puzzles/110",
+          diff: "medium",
+          cat: "strategy",
+        },
+        {
+          id: 111,
+          name: "Counting on Friends",
+          url: "https://brainstellar.com/puzzles/111",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 112,
+          name: "Random Ratio",
+          url: "https://brainstellar.com/puzzles/112",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 114,
+          name: "Second Chance",
+          url: "https://brainstellar.com/puzzles/114",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 115,
+          name: "Innocent Monkey",
+          url: "https://brainstellar.com/puzzles/115",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 116,
+          name: "Consecutive Heads",
+          url: "https://brainstellar.com/puzzles/116",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 117,
+          name: "Chess Tournament",
+          url: "https://brainstellar.com/puzzles/117",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 118,
+          name: "Number of Double Heads",
+          url: "https://brainstellar.com/puzzles/118",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 119,
+          name: "Breaking Stick",
+          url: "https://brainstellar.com/puzzles/119",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 120,
+          name: "Prisoner's Hat (Multicolor)",
+          url: "https://brainstellar.com/puzzles/120",
+          diff: "medium",
+          cat: "strategy",
+        },
+        {
+          id: 121,
+          name: "Rainbow Hats",
+          url: "https://brainstellar.com/puzzles/121",
+          diff: "medium",
+          cat: "strategy",
+        },
+        {
+          id: 122,
+          name: "2 Equations & 3 Unknowns",
+          url: "https://brainstellar.com/puzzles/122",
+          diff: "medium",
+          cat: "general",
+        },
+        {
+          id: 123,
+          name: "Domino Covering",
+          url: "https://brainstellar.com/puzzles/123",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 124,
+          name: "Fruit Magic",
+          url: "https://brainstellar.com/puzzles/124",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 125,
+          name: "Catching Ants",
+          url: "https://brainstellar.com/puzzles/125",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 126,
+          name: "Color Complex",
+          url: "https://brainstellar.com/puzzles/126",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 127,
+          name: "Light Bulbs in Circle",
+          url: "https://brainstellar.com/puzzles/127",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 128,
+          name: "Chocolate Bar",
+          url: "https://brainstellar.com/puzzles/128",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 129,
+          name: "Dead Men Walking",
+          url: "https://brainstellar.com/puzzles/129",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 130,
+          name: "Square Infection",
+          url: "https://brainstellar.com/puzzles/130",
+          diff: "medium",
+          cat: "discrete",
+        },
+        // medium 1000-series (from medium page)
+        {
+          id: 1002,
+          name: "To Begin or Not to Begin?",
+          url: "https://brainstellar.com/puzzles/1002",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 1003,
+          name: "Crazy Postman",
+          url: "https://brainstellar.com/puzzles/1003",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 1004,
+          name: "Single Bid",
+          url: "https://brainstellar.com/puzzles/1004",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 1005,
+          name: "Waiting for a Truck",
+          url: "https://brainstellar.com/puzzles/1005",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 1006,
+          name: "The Blind Archer",
+          url: "https://brainstellar.com/puzzles/1006",
+          diff: "medium",
+          cat: "probability",
+        },
+        {
+          id: 1011,
+          name: "Min & Max",
+          url: "https://brainstellar.com/puzzles/1011",
+          diff: "medium",
+          cat: "general",
+        },
+        {
+          id: 1013,
+          name: "Crazy Clock",
+          url: "https://brainstellar.com/puzzles/1013",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 1014,
+          name: "Candy Game",
+          url: "https://brainstellar.com/puzzles/1014",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 1015,
+          name: "Overlapping Coins",
+          url: "https://brainstellar.com/puzzles/1015",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 1016,
+          name: "Scaling a Square",
+          url: "https://brainstellar.com/puzzles/1016",
+          diff: "medium",
+          cat: "discrete",
+        },
+        {
+          id: 1019,
+          name: "Weird Sequences",
+          url: "https://brainstellar.com/puzzles/1019",
+          diff: "medium",
+          cat: "general",
+        },
+
+        // ── HARD ──────────────────────────────────────────────────────────────
+        {
+          id: 201,
+          name: "Colored Runs of Cards",
+          url: "https://brainstellar.com/puzzles/201",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 202,
+          name: "Drunk Ant",
+          url: "https://brainstellar.com/puzzles/202",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 203,
+          name: "Distance from North Pole",
+          url: "https://brainstellar.com/puzzles/203",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 204,
+          name: "Expected Breakup Length",
+          url: "https://brainstellar.com/puzzles/204",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 205,
+          name: "Messing with Envelopes",
+          url: "https://brainstellar.com/puzzles/205",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 206,
+          name: "Collecting Lucky Coupons",
+          url: "https://brainstellar.com/puzzles/206",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 207,
+          name: "The Noodles",
+          url: "https://brainstellar.com/puzzles/207",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 208,
+          name: "Distinct Number Draws",
+          url: "https://brainstellar.com/puzzles/208",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 209,
+          name: "Greed for an Ace",
+          url: "https://brainstellar.com/puzzles/209",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 210,
+          name: "Random Point on Disk",
+          url: "https://brainstellar.com/puzzles/210",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 211,
+          name: "Enclosing the Center",
+          url: "https://brainstellar.com/puzzles/211",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 213,
+          name: "Sum to One",
+          url: "https://brainstellar.com/puzzles/213",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 215,
+          name: "Random Walk",
+          url: "https://brainstellar.com/puzzles/215",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 216,
+          name: "Left Some Candies",
+          url: "https://brainstellar.com/puzzles/216",
+          diff: "hard",
+          cat: "probability",
+        },
+        {
+          id: 217,
+          name: "Catching the Submarine",
+          url: "https://brainstellar.com/puzzles/217",
+          diff: "hard",
+          cat: "strategy",
+        },
+        {
+          id: 218,
+          name: "Catching the Spy",
+          url: "https://brainstellar.com/puzzles/218",
+          diff: "hard",
+          cat: "strategy",
+        },
+        {
+          id: 220,
+          name: "Pure Gold",
+          url: "https://brainstellar.com/puzzles/220",
+          diff: "hard",
+          cat: "strategy",
+        },
+        {
+          id: 222,
+          name: "Counter Strike",
+          url: "https://brainstellar.com/puzzles/222",
+          diff: "hard",
+          cat: "strategy",
+        },
+        {
+          id: 223,
+          name: "Sharing a Secret",
+          url: "https://brainstellar.com/puzzles/223",
+          diff: "hard",
+          cat: "discrete",
+        },
+        {
+          id: 224,
+          name: "Weights Reckoning",
+          url: "https://brainstellar.com/puzzles/224",
+          diff: "hard",
+          cat: "discrete",
+        },
+        {
+          id: 225,
+          name: "Gas Stations on Circular Trek",
+          url: "https://brainstellar.com/puzzles/225",
+          diff: "hard",
+          cat: "discrete",
+        },
+        {
+          id: 226,
+          name: "Bricking Box",
+          url: "https://brainstellar.com/puzzles/226",
+          diff: "hard",
+          cat: "discrete",
+        },
+        // hard 1000-series (from hard page)
+        {
+          id: 1017,
+          name: "Consecutive Sums",
+          url: "https://brainstellar.com/puzzles/1017",
+          diff: "hard",
+          cat: "discrete",
+        },
+        {
+          id: 1018,
+          name: "Intersecting Pillars",
+          url: "https://brainstellar.com/puzzles/1018",
+          diff: "hard",
+          cat: "discrete",
+        },
+        {
+          id: 1020,
+          name: "Color Switches",
+          url: "https://brainstellar.com/puzzles/1020",
+          diff: "hard",
+          cat: "probability",
+        },
+
+        // ── DEADLY ────────────────────────────────────────────────────────────
+        {
+          id: 221,
+          name: "Game of Divisors",
+          url: "https://brainstellar.com/puzzles/221",
+          diff: "deadly",
+          cat: "discrete",
+        },
+        {
+          id: 1008,
+          name: "Bullets of Fate",
+          url: "https://brainstellar.com/puzzles/1008",
+          diff: "deadly",
+          cat: "probability",
+        },
+        {
+          id: 1009,
+          name: "Clan Size",
+          url: "https://brainstellar.com/puzzles/1009",
+          diff: "deadly",
+          cat: "probability",
+        },
+        {
+          id: 1012,
+          name: "Prisoner's Hat (Infinity)",
+          url: "https://brainstellar.com/puzzles/1012",
+          diff: "deadly",
+          cat: "strategy",
+        },
+      ];
+
+      // Catppuccin palette
+      const DIFF_COLORS = {
+        easy: "var(--easy)",
+        medium: "var(--medium)",
+        hard: "var(--hard)",
+        deadly: "var(--deadly)",
+      };
+      // Use explicit hex for tags (since color-mix with CSS vars is iffy in some browsers)
+      const DIFF_HEX_DARK = {
+        easy: "#a6e3a1",
+        medium: "#f9e2af",
+        hard: "#fab387",
+        deadly: "#f38ba8",
+      };
+      const DIFF_HEX_LIGHT = {
+        easy: "#40a02b",
+        medium: "#df8e1d",
+        hard: "#fe640b",
+        deadly: "#d20f39",
+      };
+      const CAT_HEX_DARK = {
+        probability: "#89b4fa",
+        discrete: "#94e2d5",
+        strategy: "#cba6f7",
+        general: "#89dceb",
+      };
+      const CAT_HEX_LIGHT = {
+        probability: "#1e66f5",
+        discrete: "#179299",
+        strategy: "#8839ef",
+        general: "#04a5e5",
+      };
+
+      const DIFF_LABELS = {
+        easy: "Easy",
+        medium: "Medium",
+        hard: "Hard",
+        deadly: "Deadly",
+      };
+      const CAT_LABELS = {
+        probability: "Probability",
+        discrete: "Discrete",
+        strategy: "Strategy",
+        general: "General",
+      };
+
+      const STORAGE_KEY = "bs_solved_v1";
+      const STARRED_KEY = "bs_starred_v1";
+      const STREAK_KEY = "bs_streak_v1";
+      const THEME_KEY = "bs_theme_v1";
+
+      function loadSet(key) {
+        try {
+          return new Set(JSON.parse(localStorage.getItem(key) || "[]"));
+        } catch {
+          return new Set();
+        }
+      }
+      function saveSet(key, s) {
+        localStorage.setItem(key, JSON.stringify([...s]));
+      }
+
+      let solved = loadSet(STORAGE_KEY);
+      let starred = loadSet(STARRED_KEY);
+      let activeFilter = { status: "all", cat: null };
+
+      // ── Theme ──────────────────────────────────────────────────────────────
+      function isDarkMode() {
+        return document.documentElement.getAttribute("data-theme") === "dark";
+      }
+
+      function getDiffHex(diff) {
+        return isDarkMode() ? DIFF_HEX_DARK[diff] : DIFF_HEX_LIGHT[diff];
+      }
+      function getCatHex(cat) {
+        return isDarkMode() ? CAT_HEX_DARK[cat] : CAT_HEX_LIGHT[cat];
+      }
+
+      const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+
+      function updateToggleLabel() {
+        const dark = isDarkMode();
+        document.getElementById("theme-icon").textContent = dark ? "☀️" : "🌙";
+        document.getElementById("theme-label").textContent = dark
+          ? "Light"
+          : "Dark";
+      }
+      updateToggleLabel();
+
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const next = isDarkMode() ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem(THEME_KEY, next);
+        updateToggleLabel();
+        // Re-apply tag colors (they use hex vars that depend on theme)
+        applyRowStates();
+        updateCatGridColors();
+      });
+
+      // ── Streak ─────────────────────────────────────────────────────────────
+      function updateStreak(newCount) {
+        const today = new Date().toDateString();
+        const data = JSON.parse(
+          localStorage.getItem(STREAK_KEY) ||
+            '{"streak":0,"last":"","count":0}',
+        );
+        if (newCount > data.count) {
+          if (data.last === today) {
+          } else if (
+            data.last === new Date(Date.now() - 86400000).toDateString()
+          ) {
+            data.streak++;
+          } else {
+            data.streak = 1;
+          }
+          data.last = today;
+          data.count = newCount;
+          localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+        }
+        return JSON.parse(localStorage.getItem(STREAK_KEY) || '{"streak":0}')
+          .streak;
+      }
+
+      // ── Stats ──────────────────────────────────────────────────────────────
+      function computeStats() {
+        const total = PUZZLES.length,
+          done = solved.size;
+        const pct = total ? Math.round((done / total) * 100) : 0;
+        const byDiff = {},
+          byCat = {};
+        for (const p of PUZZLES) {
+          byDiff[p.diff] = byDiff[p.diff] || { done: 0, total: 0 };
+          byDiff[p.diff].total++;
+          if (solved.has(p.id)) byDiff[p.diff].done++;
+          byCat[p.cat] = byCat[p.cat] || { done: 0, total: 0 };
+          byCat[p.cat].total++;
+          if (solved.has(p.id)) byCat[p.cat].done++;
+        }
+        return { total, done, pct, byDiff, byCat };
+      }
+
+      function renderHeader(stats) {
+        document.getElementById("hd-solved").textContent = stats.done;
+        document.getElementById("hd-total").textContent = stats.total;
+        document.getElementById("hd-starred").textContent = starred.size;
+        document.getElementById("hd-streak").textContent = updateStreak(
+          stats.done,
+        );
+        document.getElementById("overall-pct").textContent = stats.pct + "%";
+        document.getElementById("overall-bar").style.width = stats.pct + "%";
+      }
+
+      // ── Cat grid ───────────────────────────────────────────────────────────
+      function buildCatGrid() {
+        const grid = document.getElementById("cat-grid");
+        grid.innerHTML = "";
+        const entries = [
+          ...["easy", "medium", "hard", "deadly"].map((k) => ({
+            key: k,
+            label: DIFF_LABELS[k],
+            type: "diff",
+          })),
+          ...["probability", "discrete", "strategy", "general"].map((k) => ({
+            key: k,
+            label: CAT_LABELS[k],
+            type: "cat",
+          })),
+        ];
+        for (const e of entries) {
+          const card = document.createElement("div");
+          card.className = "cat-card";
+          card.dataset.key = e.key;
+          card.dataset.type = e.type;
+          card.innerHTML = `
+      <div class="cat-name">${e.label}</div>
+      <div class="cat-progress-text" data-cat-progress="${e.key}">0 / 0</div>
+      <div class="cat-mini-bar"><div class="cat-mini-fill" data-cat-bar="${e.key}" style="width:0%"></div></div>`;
+          card.addEventListener("click", () => {
+            activeFilter.cat = activeFilter.cat === e.key ? null : e.key;
+            updateCatGridActive();
+            refreshList();
+          });
+          grid.appendChild(card);
+        }
+        updateCatGridColors();
+      }
+
+      function updateCatGridColors() {
+        document.querySelectorAll(".cat-card").forEach((card) => {
+          const key = card.dataset.key;
+          const type = card.dataset.type;
+          const color = type === "diff" ? getDiffHex(key) : getCatHex(key);
+          card.style.setProperty("--cat-color", color);
+        });
+      }
+
+      function updateCatGrid(stats) {
+        for (const diff of ["easy", "medium", "hard", "deadly"]) {
+          const s = stats.byDiff[diff] || { done: 0, total: 0 };
+          const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
+          const el = document.querySelector(`[data-cat-progress="${diff}"]`);
+          const bar = document.querySelector(`[data-cat-bar="${diff}"]`);
+          if (el) el.textContent = `${s.done} / ${s.total}`;
+          if (bar) bar.style.width = pct + "%";
+        }
+        for (const cat of ["probability", "discrete", "strategy", "general"]) {
+          const s = stats.byCat[cat] || { done: 0, total: 0 };
+          const pct = s.total ? Math.round((s.done / s.total) * 100) : 0;
+          const el = document.querySelector(`[data-cat-progress="${cat}"]`);
+          const bar = document.querySelector(`[data-cat-bar="${cat}"]`);
+          if (el) el.textContent = `${s.done} / ${s.total}`;
+          if (bar) bar.style.width = pct + "%";
+        }
+      }
+
+      function updateCatGridActive() {
+        document
+          .querySelectorAll(".cat-card")
+          .forEach((card) =>
+            card.classList.toggle(
+              "active",
+              card.dataset.key === activeFilter.cat,
+            ),
+          );
+      }
+
+      // ── Puzzle list (built once, updated in place) ─────────────────────────
+      function buildList() {
+        const list = document.getElementById("puzzle-list");
+        list.innerHTML = "";
+        for (const p of PUZZLES) {
+          const dColor = getDiffHex(p.diff);
+          const cColor = getCatHex(p.cat);
+          const row = document.createElement("div");
+          row.className = "puzzle-row";
+          row.dataset.id = p.id;
+          row.dataset.diff = p.diff;
+          row.dataset.cat = p.cat;
+          row.innerHTML = `
+      <div class="check-box" title="Mark as solved">
+        <svg class="check-icon" width="11" height="11" viewBox="0 0 12 12" fill="none">
+          <polyline points="2,6 5,9 10,3" stroke="var(--bg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <button class="star-btn" title="Star this puzzle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="${getCatHex("probability")}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="star-svg">
+          <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+        </svg>
+      </button>
+      <div>
+        <div class="puzzle-name">${p.name}</div>
+        <div class="puzzle-link"><a href="${p.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">brainstellar.com/puzzles/${p.id} ↗</a></div>
+      </div>
+      <div><span class="diff-tag" data-diff-tag="${p.id}" style="--d-color:${dColor}">${DIFF_LABELS[p.diff]}</span></div>
+      <div><span class="cat-tag" data-cat-tag="${p.id}" style="--c-color:${cColor}">${CAT_LABELS[p.cat]}</span></div>
+    `;
+
+          row.querySelector(".check-box").addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleSolved(p.id, row);
+          });
+          row.querySelector(".star-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleStarred(p.id, row);
+          });
+          row.addEventListener("click", () => toggleSolved(p.id, row));
+          list.appendChild(row);
+        }
+        applyRowStates();
+      }
+
+      function applyRowStates(singleRow) {
+        const rows = singleRow
+          ? [singleRow]
+          : document.querySelectorAll(".puzzle-row[data-id]");
+        rows.forEach((row) => {
+          const id = Number(row.dataset.id);
+          const isDone = solved.has(id);
+          const isStarred = starred.has(id);
+          row.classList.toggle("solved", isDone);
+          const starBtn = row.querySelector(".star-btn");
+          const starSvg = row.querySelector(".star-svg");
+          starBtn.classList.toggle("starred", isStarred);
+          if (starSvg) {
+            const starColor = isDarkMode()
+              ? CAT_HEX_DARK.probability
+              : CAT_HEX_LIGHT.probability;
+            starSvg.setAttribute("stroke", starColor);
+            starSvg.setAttribute("fill", isStarred ? starColor : "none");
+          }
+        });
+      }
+
+      function refreshList() {
+        let anyVisible = false;
+        document.querySelectorAll(".puzzle-row[data-id]").forEach((row) => {
+          const id = Number(row.dataset.id);
+          const diff = row.dataset.diff;
+          const cat = row.dataset.cat;
+          const catMatch =
+            !activeFilter.cat ||
+            diff === activeFilter.cat ||
+            cat === activeFilter.cat;
+          const statusMatch =
+            activeFilter.status === "all" ||
+            (activeFilter.status === "done" && solved.has(id)) ||
+            (activeFilter.status === "todo" && !solved.has(id)) ||
+            (activeFilter.status === "starred" && starred.has(id));
+          const show = catMatch && statusMatch;
+          row.style.display = show ? "" : "none";
+          if (show) anyVisible = true;
+        });
+        let empty = document.getElementById("empty-state");
+        if (!anyVisible) {
+          if (!empty) {
+            empty = document.createElement("div");
+            empty.id = "empty-state";
+            empty.className = "empty-state";
+            empty.textContent = "No puzzles match your filters.";
+            document.getElementById("puzzle-list").appendChild(empty);
+          }
+        } else if (empty) {
+          empty.remove();
+        }
+      }
+
+      function toggleSolved(id, row) {
+        if (solved.has(id)) solved.delete(id);
+        else solved.add(id);
+        saveSet(STORAGE_KEY, solved);
+        applyRowStates(row);
+        if (activeFilter.status === "done" || activeFilter.status === "todo")
+          refreshList();
+        updateHeaderAndCards();
+      }
+
+      function toggleStarred(id, row) {
+        if (starred.has(id)) starred.delete(id);
+        else starred.add(id);
+        saveSet(STARRED_KEY, starred);
+        applyRowStates(row);
+        if (activeFilter.status === "starred" && !starred.has(id))
+          refreshList();
+        updateHeaderAndCards();
+      }
+
+      function updateHeaderAndCards() {
+        const stats = computeStats();
+        renderHeader(stats);
+        updateCatGrid(stats);
+      }
+
+      // ── Filter buttons ─────────────────────────────────────────────────────
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          activeFilter.status = btn.dataset.status;
+          refreshList();
+        });
+      });
+
+      document.getElementById("clear-btn").addEventListener("click", () => {
+        if (confirm("Reset all progress and stars? This cannot be undone.")) {
+          solved = new Set();
+          starred = new Set();
+          saveSet(STORAGE_KEY, solved);
+          saveSet(STARRED_KEY, starred);
+          localStorage.removeItem(STREAK_KEY);
+          applyRowStates();
+          refreshList();
+          updateHeaderAndCards();
+        }
+      });
+
+      // ── Init ───────────────────────────────────────────────────────────────
+      buildCatGrid();
+      buildList();
+      const initStats = computeStats();
+      renderHeader(initStats);
+      updateCatGrid(initStats);
+      refreshList();
+    </script>
+  </body>
+</html>
